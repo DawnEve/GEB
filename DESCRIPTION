@@ -1,7 +1,7 @@
 Package: GEB
 Type: Package
 Title: A R toolkit to process NGS data (BioInfo)
-Version: 0.1.0
+Version: 0.1.1
 Author: George
 Maintainer: The package maintainer <poster469@163.com>
 Description: NSG data pre-processing.
@@ -11,13 +11,14 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
 Depends:
-	R(>= 3.6.0)
+	R (>= 3.6.0),
+	dplyr,
+	ggplot2,
+	ggrepel
 Suggest:
 	roxygen2,
 	knitr
 Imports:
 	httr,
 	readr,
-	dplyr,
-	ggplot2,
-	ggrepel
+
