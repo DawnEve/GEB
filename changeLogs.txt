@@ -1,3 +1,13 @@
-# changes on my R pkg project
+# changes on my R pkg project GEB
+
+local: YIstation:/data/wangjl/r-pkg/GEB/
+
 v0.1.0 init
 v0.1.1 use Depends, not Imports to load automatically
+v0.1.2 add many Seurat related functions
+
+
+
+# todo
+1. how to test?
+2. how to test these plot functions?
