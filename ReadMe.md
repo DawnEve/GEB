@@ -1,4 +1,4 @@
-# My R pkg named "GEB: Seurat_Decorator":
+# My R pkg named "GEB: Seurat_Decorator"
 
 >  A set of pretty visulazation methods for Suerat objects.
 
@@ -11,7 +11,7 @@ github: https://github.com/DawnEve/GEB
 
 
 
-# How to use this library?
+# How to use?
 
 ```
 # install
@@ -32,12 +32,4 @@ my_pie(diamonds,ncol=3)
 
 
 
-# How to make R packages?
 
-You can learn more about package authoring with RStudio at:   http://r-pkgs.had.co.nz/
-
-Some useful keyboard shortcuts for package authoring:
-
-- Install Package:           'Ctrl + Shift + B'
-- Check Package:             'Ctrl + Shift + E'
-- Test Package:              'Ctrl + Shift + T'

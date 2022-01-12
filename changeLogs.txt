@@ -5,9 +5,40 @@ local: YIstation:/data/wangjl/r-pkg/GEB/
 v0.1.0 init
 v0.1.1 use Depends, not Imports to load automatically
 v0.1.2 add many Seurat related functions
+v0.1.3 fix readme
 
 
 
+
+#######################
 # todo
 1. how to test?
 2. how to test these plot functions?
+
+
+
+#######################
+# How to add functions
+
+# step1: add function and its annotation in R/
+# step2: make docs to man/
+library(devtools)
+devtools::document()
+
+# step3: update version number in DESCRIPTION file, then build tar.gz file like GEB_0.1.2.tar.gz
+devtools::build()
+
+# step4: commit changes and push to github
+
+
+#######################
+# How to make R packages?
+
+You can learn more about package authoring with RStudio at:   http://r-pkgs.had.co.nz/
+
+# Some useful keyboard shortcuts for package authoring:
+- Install Package:           'Ctrl + Shift + B'
+- Check Package:             'Ctrl + Shift + E'
+- Test Package:              'Ctrl + Shift + T'
+
+
