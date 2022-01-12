@@ -1,6 +1,7 @@
-# My R pkg named "GEB: Seurat_Decorator"
+# R pkg named "GEB: Seurat_Decorator"
 
 >  A set of pretty visulazation methods for Suerat objects.
+
 
 
 # Project URL

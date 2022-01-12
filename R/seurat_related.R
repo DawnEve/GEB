@@ -15,12 +15,12 @@ convertH2M=function(s){
   paste0(substr(s, 1,1), tolower(substring(s, 2)) )
 }
 
-
-Mcc.gene =list(
-  s.genes=convertH2M(cc.genes.updated.2019$s.genes),
-  g2m.genes=convertH2M(cc.genes.updated.2019$g2m.genes)
-)
-
+if(0){
+  Mcc.gene =list(
+    s.genes=convertH2M(Seurat::cc.genes.updated.2019$s.genes),
+    g2m.genes=convertH2M(Seurat::cc.genes.updated.2019$g2m.genes)
+  )
+}
 
 
 #' shortcut: HVG, Scale(all), PCA
