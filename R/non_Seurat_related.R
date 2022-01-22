@@ -3,7 +3,8 @@
 
 
 
-#' Title: Make Sankey plot data from a table(paraLeft, paraRight)
+#' Make Sankey plot data from a table(paraLeft, paraRight)
+#'
 #' ref: https://observablehq.com/ at d3/sankey
 #' version: 2.0 define flow color as source//done
 #' v2.1 supply 3 color method: static, source, target//done
@@ -66,11 +67,13 @@ getSankeyData=function(tbl1,
 
 
 #' Sankey plot from sankeyDt, produced by getSankeyData()
+#'
 #' version: 2.0 define flow color as source//done
+#' depend getSankeyData()
 #'
 #' @param sankeyDt dataset produced by getSankeyData
 #' @param colors a color list for sankeyDt$node$node
-#' depend getSankeyData()
+
 #'
 #' @return
 #' @export

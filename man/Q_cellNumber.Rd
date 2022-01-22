@@ -2,7 +2,7 @@
 % Please edit documentation in R/seurat_related.R
 \name{Q_cellNumber}
 \alias{Q_cellNumber}
-\title{Title: 每个亚群中的细胞数量饼图}
+\title{每个亚群中的细胞数量饼图}
 \usage{
 Q_cellNumber(scObj, group.by = "seurat_clusters", colors = NULL)
 }
@@ -17,7 +17,7 @@ Q_cellNumber(scObj, group.by = "seurat_clusters", colors = NULL)
 
 }
 \description{
-Title: 每个亚群中的细胞数量饼图
+每个亚群中的细胞数量饼图
 }
 \examples{
 Q_cellNumber(sce)

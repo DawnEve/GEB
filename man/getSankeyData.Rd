@@ -2,10 +2,7 @@
 % Please edit documentation in R/non_Seurat_related.R
 \name{getSankeyData}
 \alias{getSankeyData}
-\title{Title: Make Sankey plot data from a table(paraLeft, paraRight)
-ref: https://observablehq.com/ at d3/sankey
-version: 2.0 define flow color as source//done
-v2.1 supply 3 color method: static, source, target//done}
+\title{Make Sankey plot data from a table(paraLeft, paraRight)}
 \usage{
 getSankeyData(
   tbl1,
@@ -36,7 +33,6 @@ getSankeyData(
 
 }
 \description{
-Title: Make Sankey plot data from a table(paraLeft, paraRight)
 ref: https://observablehq.com/ at d3/sankey
 version: 2.0 define flow color as source//done
 v2.1 supply 3 color method: static, source, target//done

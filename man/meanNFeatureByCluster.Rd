@@ -2,8 +2,7 @@
 % Please edit documentation in R/seurat_related.R
 \name{meanNFeatureByCluster}
 \alias{meanNFeatureByCluster}
-\title{select clusters by mean
-v2.0 order output}
+\title{Show nGene hist plot in each cluster}
 \usage{
 meanNFeatureByCluster(object, nth, draw = T)
 }
@@ -18,7 +17,6 @@ meanNFeatureByCluster(object, nth, draw = T)
 
 }
 \description{
-select clusters by mean
 v2.0 order output
 }
 \examples{

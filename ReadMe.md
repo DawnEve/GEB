@@ -2,6 +2,7 @@
 
 >  A set of pretty visulazation methods for Suerat objects.
 
+Short pkg name is easy to use when you don't want to library it.
 
 
 # Project URL
@@ -28,9 +29,3 @@ library(ggrepel)
 
 my_pie(diamonds,ncol=3)
 ```
-
-
-
-
-
-

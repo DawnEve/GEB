@@ -2,9 +2,7 @@
 % Please edit documentation in R/DotPlot_ByColumnList.One.R
 \name{DotPlot_ByColumnList}
 \alias{DotPlot_ByColumnList}
-\title{facet_grid DotPlot by column, only accept named marker gene list.
-v0.3
-模仿张泽民实验室的图(https://pubmed.ncbi.nlm.nih.gov/34914499/  Fig.2A)，竖排，分面方框}
+\title{facet_grid DotPlot by column, only accept named marker gene list.}
 \usage{
 DotPlot_ByColumnList(
   object,
@@ -65,7 +63,6 @@ DotPlot_ByColumnList(
 
 }
 \description{
-facet_grid DotPlot by column, only accept named marker gene list.
 v0.3
 模仿张泽民实验室的图(https://pubmed.ncbi.nlm.nih.gov/34914499/  Fig.2A)，竖排，分面方框
 }

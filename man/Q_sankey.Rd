@@ -2,7 +2,7 @@
 % Please edit documentation in R/seurat_related.R
 \name{Q_sankey}
 \alias{Q_sankey}
-\title{Title: 快速桑基图，几种分类方法的来源和去向}
+\title{快速桑基图，预览几种分类方法的来源和去向}
 \usage{
 Q_sankey(scObj0, col_list = NULL, downsample = NULL, color_res = 1)
 }
@@ -19,7 +19,7 @@ Q_sankey(scObj0, col_list = NULL, downsample = NULL, color_res = 1)
 
 }
 \description{
-Title: 快速桑基图，几种分类方法的来源和去向
+快速桑基图，预览几种分类方法的来源和去向
 }
 \examples{
 Q_sankey(pbmc)

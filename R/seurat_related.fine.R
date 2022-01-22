@@ -1,7 +1,6 @@
-
-
-
 #' enhenced FeaturePlot, with one unified legend color-bar.
+#'
+#' color scheme: red like brown, z-score used.
 #'
 #' @param sce Seurat obj
 #' @param features gene symbol list

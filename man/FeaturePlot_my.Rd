@@ -27,7 +27,7 @@ FeaturePlot_my(
 
 }
 \description{
-enhenced FeaturePlot, with one unified legend color-bar.
+color scheme: red like brown, z-score used.
 }
 \examples{
 FeaturePlot_my(scObj_colon, features =c("Itgam", "Ly6g", "Cxcr2", "Cxcr4", "Cxcl10"), ncol=5 )

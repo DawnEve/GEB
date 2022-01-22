@@ -2,23 +2,21 @@
 % Please edit documentation in R/non_Seurat_related.R
 \name{sankeyPlot}
 \alias{sankeyPlot}
-\title{Sankey plot from sankeyDt, produced by getSankeyData()
-version: 2.0 define flow color as source//done}
+\title{Sankey plot from sankeyDt, produced by getSankeyData()}
 \usage{
 sankeyPlot(sankeyDt, colors = NULL)
 }
 \arguments{
 \item{sankeyDt}{dataset produced by getSankeyData}
 
-\item{colors}{a color list for sankeyDt$node$node
-depend getSankeyData()}
+\item{colors}{a color list for sankeyDt$node$node}
 }
 \value{
 
 }
 \description{
-Sankey plot from sankeyDt, produced by getSankeyData()
 version: 2.0 define flow color as source//done
+depend getSankeyData()
 }
 \examples{
 getSankeyData( table(mtcars$gear, mtcars$carb))

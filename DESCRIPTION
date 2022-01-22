@@ -1,9 +1,9 @@
 Package: GEB
 Type: Package
-Title: A R toolkit to process NGS data (BioInfo)
-Version: 0.1.3
+Title: A R pkg to decorate Seurat output (single-cell RNA-seq tool)
+Version: 0.1.5
 Author: George
-Maintainer: The package maintainer <poster469@163.com>
+Maintainer: Wang J.L. <poster469@163.com>
 Description: NSG data pre-processing.
     Draw figures, etc.
 License: GPL
@@ -20,4 +20,5 @@ Imports:
 	readr,
 	dplyr,
 	ggplot2,
+	ggrastr,
 	ggrepel

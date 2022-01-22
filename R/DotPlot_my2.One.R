@@ -1,10 +1,10 @@
 #' My enhanced DotPlot
 #'
-#' version:0.1 add some colors
+#' v0.2 can cluster genes
 #'
 #' @param object Seurat obj
 #' @param assay which assay
-#' @param features gene list
+#' @param features gene symbol
 #' @param cols colors for expression
 #' @param col.min min?
 #' @param col.max max?
@@ -13,38 +13,38 @@
 #' @param idents which ident to show
 #' @param group.by group by
 #' @param split.by split by
-#' @param cluster.idents is cluster idents?
+#' @param cluster.idents whether cluster idents?
 #' @param scale scale?
 #' @param scale.by scale by?
 #' @param scale.min min?
 #' @param scale.max max?
-#' @param base_size font size list
-#' @param rel_widths relative widths
+#' @param cluster.features whether cluster idents?
+#' @param quick return normal ggplot2 obj as Seurat
+#' @param circle_size circle size left of y axis
+#' @param base_size list of font size
+#' @param rel_widths relative widths, only effective when quick =F
 #' @param color_list color list for each cluster
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' DotPlot_my(sce, features = c("CD3D", "CD79A"))
-#' DotPlot_my(sce, features = c("CD3D", "CD79A"), cols = c("white", "red2"), rel_widths = c(1,4))
-#' colors=c("#96C3D8", "#5F9BBE", "#F5B375", "#C0937E", "#67A59B", "#A5D38F", "#4A9D47", "#F19294", "#E45D61", "#3377A9",
-#' "#BDA7CB", "#684797", "#8D75AF", "#CD9C9B", "#D62E2D", "#DA8F6F", "#F47D2F")
-#' DotPlot_my(pbmc, features = split(top11$gene, top11$cluster), cols = c("white", "red3"), color_list=colors, rel_widths=c(1,45))
-#' DotPlot_my(scObj_colon, features = common_markers, color_list = colors,
-#'           rel_widths = c(1,35), base_size = list(legend=10, x=12))
-DotPlot_my=function (object, assay = NULL, features,
-                     cols = colorRampPalette(colors=c("lightyellow", "orangered", "red4"),
-                                             bias=0.5,
-                                             interpolate = c("spline"))(100),
-                     col.min = -2.5, col.max = 2.5, dot.min = 0, dot.scale = 6,
-                     idents = NULL, group.by = NULL, split.by = NULL, cluster.idents = FALSE,
-                     scale = TRUE, scale.by = "radius", scale.min = NA, scale.max = NA,
+#' DotPlot_my2(sce, features = c("CD3D", "CD79A"))
+DotPlot_my2=function (object, features, assay = NULL,
+                      cols = colorRampPalette(colors=c("lightyellow", "orangered", "red4"),
+                                              bias=0.5,
+                                              interpolate = c("spline"))(100),
+                      col.min = -2.5, col.max = 2.5, dot.min = 0, dot.scale = 6,
+                      idents = NULL, group.by = NULL, split.by = NULL, cluster.idents = FALSE,
+                      scale = TRUE, scale.by = "radius", scale.min = NA, scale.max = NA,
+                      cluster.features=T, #对基因进行聚类
 
-                     circle_size=6, #左侧圆圈大小
-                     base_size=list(x=14, y=14, top=14, legend=14), #文字字号
-                     rel_widths=c(1, 8), #左右比例
-                     color_list=NULL) #颜色列表
+                      quick=T, #如果T则输出和DotPlot类似，没有左侧的颜色列
+
+                      circle_size=6, #左侧圆圈大小
+                      base_size=list(x=14, y=14, top=14, legend=14), #文字字号
+                      rel_widths=c(1, 8), #左右比例
+                      color_list=NULL) #颜色列表
 {
   library(cowplot)
   # 返回高于某个阈值的细胞百分比
@@ -53,6 +53,13 @@ DotPlot_my=function (object, assay = NULL, features,
     return(length(x = x[x > threshold])/length(x = x))
   }
 
+  if(cluster.idents){
+    message("cluster idents in this figure.")
+  }
+
+  if(cluster.features && !is.list(features)){
+    message("cluster features in this figure.")
+  }
 
   # default values
   if(!("x" %in% names(base_size))){ base_size$x=14 }
@@ -82,7 +89,8 @@ DotPlot_my=function (object, assay = NULL, features,
   if (is.list(features) | any(!is.na(names(features)))) {
     feature.groups <- unlist(x = sapply(X = 1:length(features),
                                         FUN = function(x) {
-                                          return(rep(x = names(x = features)[x], each = length(features[[x]])))
+                                          return(rep(x = names(x = features)[x],
+                                                     each = length(features[[x]])))
                                         }))
     if (any(is.na(x = feature.groups))) {
       warning("Some feature groups are unnamed.", call. = FALSE,
@@ -95,9 +103,8 @@ DotPlot_my=function (object, assay = NULL, features,
   # 获取 idents 的细胞
   cells <- unlist(x = CellsByIdentities(object = object, idents = idents))
 
-  ################
-  # 获取表达数据，
-  ################
+
+  ##==--  获取表达数据
   # 获取 给定 cells 的 features 值(基因表达矩阵，默认是 slot="data")也就是 normalize 后的数据
   data.features <- FetchData(object = object, vars = features, cells = cells)
 
@@ -138,9 +145,7 @@ DotPlot_my=function (object, assay = NULL, features,
   }
 
 
-  ###############################
-  # 获取平均表达量和表达百分比，按类 id 列
-  ###############################
+  ##==--  获取平均表达量和表达百分比，按类 id 列
   data.plot <- lapply(X = unique(x = data.features$id), FUN = function(ident) {
     data.use <- data.features[data.features$id == ident,
                               1:(ncol(x = data.features) - 1), #去掉最后一列 id
@@ -159,12 +164,24 @@ DotPlot_my=function (object, assay = NULL, features,
   names(x = data.plot) <- unique(x = data.features$id)
 
 
-  # 如果对 cluster 进行聚类（可选）
+
+  ##==-- 如果对 cluster 进行聚类（可选）
   if (cluster.idents) {
     mat <- do.call(what = rbind, args = lapply(X = data.plot, FUN = unlist)) #解开list
     mat <- scale(x = mat) #按列scale
     id.levels <- id.levels[hclust(d = dist(x = mat))$order] #按聚类结果对cluster排序
   }
+
+  ##==--  如果对 features 进行聚类（可选）
+  if( cluster.features && is.null(x = feature.groups)  ){
+    mat <- do.call(what = rbind, args = lapply(X = data.plot, FUN = unlist)) #解开list
+    mat <- scale(x = mat) #按列scale
+    mat2= mat[,substring(colnames(mat),1,3)=="avg"]
+    features.order <- colnames(mat2)[hclust(d = dist(x = t(mat2) ))$order] #按聚类结果对 gene 排序
+    features.order = gsub("avg.exp.", "", features.order)
+    # browser() #0----- //在这里调试点
+  }
+
 
 
   # data.plot 是个 list，name就是各个id
@@ -189,9 +206,8 @@ DotPlot_my=function (object, assay = NULL, features,
   }
 
 
-  ##############
-  # scale 各类(id列)的 mean 值
-  ##############
+
+  ##==--  scale 各类(id列)的 mean 值
   # 如果只有一类，则不进行 scale 。怎么 scale 呢？
   if (length(x = levels(x = data.plot$id)) == 1) {
     scale <- FALSE
@@ -212,7 +228,6 @@ DotPlot_my=function (object, assay = NULL, features,
                              }
                              return(data.use)
                            })
-  # browser() #2----- //在这里调试点
   avg.exp.scaled <- as.vector(x = t(x = avg.exp.scaled)) #一列一个基因，变成了按行拼接成的向量
 
 
@@ -221,10 +236,15 @@ DotPlot_my=function (object, assay = NULL, features,
     avg.exp.scaled <- as.numeric(x = cut(x = avg.exp.scaled, breaks = 20))
   }
 
-  # browser(text = "3") #3----- //在这里调试点
-
   data.plot$avg.exp.scaled <- avg.exp.scaled # 记录 scale 后的mean
-  data.plot$features.plot <- factor(x = data.plot$features.plot, levels = features) #变因子
+
+
+  ##==--  如果对 features 进行聚类（可选）
+  if( cluster.features && is.null(x = feature.groups) ){
+    data.plot$features.plot = factor(data.plot$features.plot, levels=features.order)
+  }else{
+    data.plot$features.plot <- factor(x = data.plot$features.plot, levels = features) #变因子
+  }
 
   data.plot$pct.exp[data.plot$pct.exp < dot.min] <- NA
   data.plot$pct.exp <- data.plot$pct.exp * 100
@@ -258,12 +278,12 @@ DotPlot_my=function (object, assay = NULL, features,
   }
 
 
-  #################
-  ## ggplot2 画主图 plot 对象
-  #################
+
+  ##==-- ggplot2 画主图 plot 对象 --==##
   plot <- ggplot(data = data.plot, mapping = aes_string(x = "features.plot", y = "id")) +
     geom_point(mapping = aes_string(size = "pct.exp", fill = color.by),
-               shape=21, stroke=0.5) +
+               shape=21,
+               stroke=0.3, color="black") + #点图的边宽度
     scale.func(range = c(0, dot.scale), limits = c(scale.min, scale.max)) +
     # scale_x_continuous(expand=c(0,0))+
     theme(
@@ -288,10 +308,7 @@ DotPlot_my=function (object, assay = NULL, features,
       axis.title = element_blank(), # axis.title.x = element_blank(), axis.title.y = element_blank(),
 
       #x坐标文字 gene 旋转60度
-      axis.text.x.bottom = element_text(hjust = 1, vjust = 1, size=base_size$x,  angle = 60 ),
-
-      # 不要y坐标文字
-      axis.text.y = element_blank()
+      axis.text.x.bottom = element_text(hjust = 1, vjust = 1, size=base_size$x,  angle = 60 )
     )+
     guides(size = guide_legend(title = "Percent Expressed"))
   #labs(x = "Features", y = ifelse(test = is.null(x = split.by), yes = "Identity", no = "Split Identity")) +
@@ -301,12 +318,12 @@ DotPlot_my=function (object, assay = NULL, features,
   # 如果gene有分组，就分面
   if (!is.null(x = feature.groups)) {
     plot <- plot + facet_grid(facets = ~feature.groups,
-                              switch = "y",
-                              space = "free_x",
-                              scales = "free_x")+
+                              switch = "y", #y的label由默认的右侧转为左侧
+                              space = "free_x", #自由分配x轴的空间
+                              scales = "free_x")+ #x坐标范围自由
       theme(
         # 每个画板
-        panel.spacing = unit(x = 1, units = "lines"),
+        panel.spacing = unit(x = 1, units = "lines"), #间距
 
         # 不要顶部分面标签
         #strip.text = element_blank(),
@@ -336,9 +353,18 @@ DotPlot_my=function (object, assay = NULL, features,
     plot <- plot + guides(fill = guide_colorbar(title = "Average Expression"))
   }
 
-  ############################
-  # left: color circle list
-  ############################
+
+  ##==--  快图，就是直接返回
+  if(T==quick){
+    message("quick fig, same as Seurat.")
+    return( plot+theme( axis.text.y=element_text(size=base_size$y) ) )
+  }else{
+    plot = plot + theme( axis.text.y = element_blank() )
+  }
+
+
+
+  ##==--  left: color circle list
   len=length(unique(data.plot$id));
   if(is.null(color_list)){
     color_list=rainbow(len)
