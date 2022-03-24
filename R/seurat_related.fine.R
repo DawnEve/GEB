@@ -28,7 +28,7 @@ FeaturePlot_my=function(sce, features, ncol=5, cut_dims=c(-1,1.5), colors=brewer
     cbind( t(GetAssayData(	object = sce, assay = "RNA", slot = "scale.data")[features,]) ) # fast
   # 2. wide to long
   umap_data_long=umap_data %>% pivot_longer(cols=all_of(features) )
-  hist(umap_data_long$value, n=100)
+  #hist(umap_data_long$value, n=100)
   # 3. cut if too high and too low
   if(!(is.null(cut_dims))){
     umap_data_long$value=ifelse(umap_data_long$value < cut_dims[1], cut_dims[1], umap_data_long$value)
