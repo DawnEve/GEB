@@ -9,7 +9,9 @@ FeaturePlot_my(
   features,
   ncol = 5,
   cut_dims = c(-1, 1.5),
-  colors = brewer.pal(9, "YlOrRd")
+  colors = brewer.pal(9, "YlOrRd"),
+  raster = F,
+  dpi = 300
 )
 }
 \arguments{
@@ -28,7 +30,9 @@ FeaturePlot_my(
 }
 \description{
 color scheme: red like brown, z-score used.
+v0.2 add ... to allow for raster; add ncol
 }
 \examples{
 FeaturePlot_my(scObj_colon, features =c("Itgam", "Ly6g", "Cxcr2", "Cxcr4", "Cxcl10"), ncol=5 )
+FeaturePlot_my(pbmc, features =c("S100A8", "S100A9", "CD3D", "IL10"), ncol=3, raster=T )
 }

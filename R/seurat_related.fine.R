@@ -1,6 +1,7 @@
 #' enhenced FeaturePlot, with one unified legend color-bar.
 #'
 #' color scheme: red like brown, z-score used.
+#' v0.2 add ... to allow for raster; add ncol
 #'
 #' @param sce Seurat obj
 #' @param features gene symbol list
@@ -13,7 +14,11 @@
 #'
 #' @examples
 #' FeaturePlot_my(scObj_colon, features =c("Itgam", "Ly6g", "Cxcr2", "Cxcr4", "Cxcl10"), ncol=5 )
-FeaturePlot_my=function(sce, features, ncol=5, cut_dims=c(-1,1.5), colors=brewer.pal(9, "YlOrRd")){
+#' FeaturePlot_my(pbmc, features =c("S100A8", "S100A9", "CD3D", "IL10"), ncol=3, raster=T )
+FeaturePlot_my=function(sce, features, ncol=5,
+                        cut_dims=c(-1,1.5),
+                        colors=brewer.pal(9, "YlOrRd"),
+                        raster=F, dpi=300){
   library(dplyr)
   library(tidyr)
   library(ggplot2)
@@ -38,9 +43,15 @@ FeaturePlot_my=function(sce, features, ncol=5, cut_dims=c(-1,1.5), colors=brewer
   umap_data_long$name=factor(umap_data_long$name, levels = features)
 
   # 5. plot
-  g1=ggplot(umap_data_long, aes(UMAP_1, UMAP_2, color=value) )+
-    geom_point(size=0.3)+
-    facet_wrap(name~.)+
+  g1=ggplot(umap_data_long, aes(UMAP_1, UMAP_2, color=value) )
+  if(raster){
+    message("hint: raster points using ggrastr to make dense point fig smaller ...")
+    g1=g1+ggrastr::geom_point_rast(size=0.3, raster.dpi = getOption("ggrastr.default.dpi", dpi))
+  }else{
+    g1=g1+geom_point(size=0.3)
+  }
+  g1 = g1+
+    facet_wrap(name~., ncol = ncol)+
     scale_color_gradientn(name="Z Score", colors=colors)+
     theme_void(base_size = 12)+
     theme(
