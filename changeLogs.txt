@@ -11,6 +11,8 @@ v0.1.4 fix bug for parameter from Seurat
 v0.1.5 DotPlot_my2(..., cluster.features=T) can cluster genes
 v0.1.6 fix bug FeaturePlot_my
 v0.1.7 fix add raster FeaturePlot_my
+v0.1.8 add c++ function
+
 
 #######################
 # todo
@@ -18,22 +20,47 @@ v0.1.7 fix add raster FeaturePlot_my
 2. how to test these plot functions?
 
 
+#######################
+# 如果 C++ 函数找不到怎么办？
+# 在 NAMESPACE 中添加下列3行:
+useDynLib(GEB, .registration=TRUE)
+importFrom(Rcpp, evalCpp)
+exportPattern("^[[:alpha:]]+")
+
+
+能解决如下报错:
+> GEB::han(3,'a','b','c') #后来发现，NAMESPACE 文件中加入那2行就能找到了
+Error in .Call("_GEB_han", PACKAGE = "GEB", n, a, b, c) :
+  "_GEB_han" not available for .Call() for package "GEB"
+
 
 #######################
 # How to add functions
 
-library(devtools)
+> library(devtools)
 
 # step1: add function and its annotation in R/
-load_all() #载入所有函数，测试效果
+> Rcpp::compileAttributes() #可选
+> load_all() #载入所有函数，测试效果
+
+> GEB::han(3,'a','b','c')
+
+
 
 # step2: make docs to man/
 
-> devtools::document()
+> devtools::document() #add NAMESAPCE again for c++
+
+> GEB::han(3,'a','b','c')
+
 
 # step3: update version number in changeLog.txt and DESCRIPTION file,
 # then build tar.gz file like GEB_0.1.2.tar.gz
 > devtools::build()
+
+# install and test
+> install.packages("~/data/r-pkg/GEB_0.1.8.tar.gz", repos = NULL, type = "source")
+> library(GEB)
 
 # step4: commit changes and push to github
 $ git add .
@@ -50,5 +77,3 @@ You can learn more about package authoring with RStudio at:   http://r-pkgs.had.
 - Install Package:           'Ctrl + Shift + B'
 - Check Package:             'Ctrl + Shift + E'
 - Test Package:              'Ctrl + Shift + T'
-
-

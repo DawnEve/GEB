@@ -1,3 +1,10 @@
+#' @useDynLib GEB
+#' @importFrom Rcpp evalCpp
+#'
+NULL
+
+
+
 #' default test function
 #'
 #' @return

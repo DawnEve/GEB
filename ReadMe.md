@@ -28,4 +28,5 @@ library(ggplot2)
 library(ggrepel)
 
 my_pie(diamonds,ncol=3)
+han(3,'a','b','c') #c++ function
 ```
