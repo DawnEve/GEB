@@ -13,6 +13,7 @@ v0.1.6 fix bug FeaturePlot_my
 v0.1.7 fix add raster FeaturePlot_my
 v0.1.8 add c++ function
 v0.1.9 add plot_PC_on_UMAP
+v0.2.0 fix han
 
 #######################
 # todo

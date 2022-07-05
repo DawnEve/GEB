@@ -1,7 +1,7 @@
 Package: GEB
 Type: Package
 Title: A R pkg to decorate Seurat output (single-cell RNA-seq tool)
-Version: 0.1.9
+Version: 0.2.0
 Author: George
 Maintainer: Wang J.L. <314649593@qq.com>
 Description: NSG data pre-processing.

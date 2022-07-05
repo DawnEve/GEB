@@ -2,14 +2,14 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 is_odd_cpp <- function(n = 10L) {
-    .Call(`_GEB_is_odd_cpp`, n)
+    .Call('_GEB_is_odd_cpp', PACKAGE = 'GEB', n)
 }
 
 timesTwo <- function(x) {
-    .Call(`_GEB_timesTwo`, x)
+    .Call('_GEB_timesTwo', PACKAGE = 'GEB', x)
 }
 
 han <- function(n, a, b, c) {
-    invisible(.Call(`_GEB_han`, n, a, b, c))
+    invisible(.Call('_GEB_han', PACKAGE = 'GEB', n, a, b, c))
 }
 
